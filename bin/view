@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# Simple script to view data in tab delimited format.
+
+require 'csv'
+require 'optparse'
+require 'pry' # for debugging
+require 'tco'
+require 'pastel'
+require 'terminal-table'
+
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "View a tab separated file at the command line"
+  opts.on('-n', '--name name', 'Name') do |name|
+    options[:name] = name;
+  end
+end
+parser.parse!
+
+filepath = options[:name]
+if filepath.nil?
+  puts "Filepath is missing"
+  exit 1
+end
+
+
+lines = CSV.readlines(filepath, col_sep: "\t", quote_char: "\x00")
+
+table = Terminal::Table.new rows: lines  
+
+puts table
