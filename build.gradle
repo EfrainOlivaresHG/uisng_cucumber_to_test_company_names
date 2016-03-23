@@ -1,0 +1,25 @@
+
+plugins {
+  id "com.github.samueltbrown.cucumber" version "0.9"
+  id "com.jfrog.artifactory" version "3.1.0"
+}
+
+
+apply plugin: 'java'
+
+dependencies {
+    cucumberRuntime 'info.cukes:cucumber-java:1.2.3'
+}
+
+cucumber {
+  featureDirs = ['src/test/resources']
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    resolve {
+        repoKey = 'libs-release'
+        username = "${artifactory_user}" // The publisher user name
+        password = "${artifactory_password}" // The publisher password
+    }
+}
